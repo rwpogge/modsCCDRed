@@ -1,0 +1,15 @@
+#
+# MODS1 Red Channel CCD Bad Pixel List
+# Full-frame (8192x3088) 1x1 binning after trim of overscan
+# Updated: 2012 March 29 [rwp/osu]
+#
+# xs   xe   ys   ye
+1904 1914 1545 1634
+2542 2542 1342 1544
+3989 3990 1475 1544
+3412 3412 1407 1536
+2540 2544 1281 1341
+8029 8029 1545 1963
+4638 4638 1545 2392
+4635 4641 2392 2903
+4635 4639 1455 1544
