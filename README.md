@@ -1,4 +1,7 @@
-# modsCCDRed - MODS Basic 2D CCD Reduction Programs
+# modsCCDRed
+MODS Basic 2D CCD Reduction Programs
+
+## Overview
 
 modsCCDRed is a collection of Python programs to perform basic 2D
 reduction (bias, trim, flat field, and bad column fixing) on raw MODS
