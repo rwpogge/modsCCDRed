@@ -345,4 +345,4 @@ for rawFile in files:
 if Verbose:
   print('modsBias Done')
 
-sys.sys.exit(0)
+sys.exit(0)
