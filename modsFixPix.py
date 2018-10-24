@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 #
 # modsFixPix - Fix bad columns on raw MODS images using a bad pixel list
 #
@@ -83,13 +83,14 @@ from astropy.io import fits
 
 # Version and Date
 
-versNum = '2.0.3'
-versDate = '2017-05-18'
+versNum = '2.0.4'
+versDate = '2018-10-24'
 
 # Globals
 
 avgSize = 5       # Default size of the averaging region for bad columns
 modsDir = os.getenv('MODS_DBDIR','./')  # Default database directory
+
 
 # Suppress nuisance warning from astropy.io.fits, which can be
 # unusually strict about FITS standard, but the gunk it complains
@@ -101,6 +102,7 @@ warnings.filterwarnings('ignore',category=RuntimeWarning, append=True)
 warnings.filterwarnings('ignore',category=FutureWarning, append=True)
 from astropy.utils.exceptions import AstropyWarning
 warnings.filterwarnings('ignore',category=AstropyWarning, append=True)
+
 
 #----------------------------------------------------------------
 #
@@ -124,6 +126,7 @@ def printUsage():
   print('\nEnvironment:')
   print('  MODS_DBDIR = directory path to MODS database files')
   print('               currently MODS_DBDIR=%s\n' % (modsDir))
+
 
 #----------------------------------------------------------------
 #
@@ -163,165 +166,169 @@ def readBadPixList(file):
 # Main Program starts here...
 #
 
-def main():
+#def main():
 
-  # Defaults for various flags
+# Defaults for various flags
 
-  userBPL = False  # if True, use the user-supplied bad pixel list file
-  Verbose = False  # if True, print detailed debugging output
-  numAvg  = avgSize # default averaging size
-  NoClobber = True  # do not allow overwrite on output (override with -f)
+userBPL = False  # if True, use the user-supplied bad pixel list file
+Verbose = False  # if True, print detailed debugging output
+numAvg  = avgSize # default averaging size
+NoClobber = True  # do not allow overwrite on output (override with -f)
   
-  # Parse the command-line arguments (GNU-style getopt)
+# Parse the command-line arguments (GNU-style getopt)
   
-  try:
-    opts, files = getopt.gnu_getopt(sys.argv[1:],'l:w:vVf',
-                                    ['bpl=','list=','width=','verbose',
-                                     'version','clobber'])
-  except getopt.GetoptError as err:
-    print('\n** ERROR: %s' % (err))
-    printUsage()
-    sys.exit(2)
+try:
+  opts, files = getopt.gnu_getopt(sys.argv[1:],'l:w:vVf',
+                                  ['bpl=','list=','width=','verbose',
+                                   'version','clobber'])
+except getopt.GetoptError as err:
+  print('\n** ERROR: %s' % (err))
+  printUsage()
+  sys.exit(2)
 
-  if len(opts)==0 and len(files)==0:
-    printUsage()
-    sys.exit(1)
+if len(opts)==0 and len(files)==0:
+  printUsage()
+  sys.exit(1)
 
-  for opt, arg in opts:
-    if opt in ('-l','--bpl','--list'):
-        bplFile = arg
-        userBPL = True
-    elif opt in ('-w','--width'):
-        numAvg = int(arg)
-        if numAvg < 3:
-          print('** ERROR: width of the averaging region must be 3 pixel or larger')
-          sys.exit(1)
-    elif opt in ('-f','--clobber'):
-      NoClobber = False
-    elif opt in ('-v','--verbose'):
-      Verbose = True
-    elif opt in ('-V','--version'):
-      print('modsFixPix.py v%s [%s]' % (versNum, versDate))
-      sys.exit(0)
-      
-  numFiles = len(files)
+for opt, arg in opts:
+  if opt in ('-l','--bpl','--list'):
+    bplFile = arg
+    userBPL = True
 
-  if numFiles < 2:
-    printUsage()
+  elif opt in ('-w','--width'):
+    numAvg = int(arg)
+    if numAvg < 3:
+      print('** ERROR: width of the averaging region must be 3 pixel or larger')
+      sys.exit(1)
+
+  elif opt in ('-f','--clobber'):
+    NoClobber = False
+
+  elif opt in ('-v','--verbose'):
+    Verbose = True
+
+  elif opt in ('-V','--version'):
+    print('modsFixPix.py v%s [%s]' % (versNum, versDate))
     sys.exit(0)
-  else:
-    inFile = files[0]
-    outFile = files[1]
-
-  # Make sure the input FITS file exists before proceeding
-
-  if os.path.isfile(inFile) == 0:
-    print('\n** ERROR: Input FITS image file %s not found.' % (inFile))
-    print('          modsFixPix aborting.\n')
-    sys.exit(1)
-
-  # Make sure we won't clobber the output file unless -f is used
-
-  if NoClobber and os.path.isfile(outFile): 
-    print('\n** ERROR: Operation would overwrite existing FITS file %s' % (outFile))
-    print('          Use -f to force output (\'clobber\').')
-    print('          modsFixPix aborting.\n')
-    sys.exit(1)
-
-  # Open the input FITS image file, and get header info as needed
-
-  fitsFile = fits.open(inFile,uint=False)
-  data = fitsFile[0].data
-
-  # Extract useful FITS info from the header
-  
-  naxis1 = fitsFile[0].header['NAXIS1']
-  naxis2 = fitsFile[0].header['NAXIS2']
-  instID = fitsFile[0].header['INSTRUME']
-  channel = fitsFile[0].header['CHANNEL']
-  
-  if Verbose:
-    print('Processing %s [%d x %d]' % (inFile, naxis1, naxis2))
-    print('%s %s Channel' % (instID,channel))
-
-  # If we were not given a bad pixel list on the command line, use the
-  # INSTRUME keyword in the header to find the default
-
-  if userBPL:
-    pathBits = os.path.split(bplFile)
-    if len(pathBits[0]) == 0:
-      bplFile = os.path.join(modsDir,bplFile)
-  else:
-    bplFile = os.path.join(modsDir,str.lower(instID)+'.bpl')
-
-  if os.path.isfile(bplFile) == 0:
-    print('\n** ERROR: MODS bad pixel list file %s not found.' % (bplFile))
-    print('          modsFixPix aborting.\n')
-    sys.exit(1)
-
-  if Verbose:
-    print('Bad Pixel List: %s' % (bplFile))
-
-  # Read and parse the bad pixel list
-
-  xs, xe, ys, ye = readBadPixList(bplFile)
-
-  if Verbose:
-    print('%s contains %d bad pixel regions to fix' % (bplFile,len(xs)+1))
-  
-  # Page through the bad pixel list and fix the pixel
-
-  for i in range(len(xs)):
-    xstart = int(xs[i]-1)
-    xend = int(xe[i])
-    ystart = int(ys[i]-1)
-    yend = int(ye[i])
-    nx=xe[i]-xs[i]+1
-
-    if Verbose:
-      print('  Fixing pixels in region [%d:%d,%d:%d]' % (xs[i],xe[i],ys[i],ye[i]))
       
-    # The 'fix' is to replace bad-column pixels by the median of
-    # pixels +/-numAvg either side of the bad column(s).
+numFiles = len(files)
 
-    xsl=xstart-numAvg
-    xel=xstart-1
-    xsr=xend+1
-    xer=xend+numAvg
-  
-    for y in range(ystart,yend,1):
-      medLeft = np.median(data[y,xsl:xel])
-      medRight= np.median(data[y,xsr:xer])
-      corrVal = (medLeft+medRight)/2.0
-      if (nx>1):
-        data[y,xstart:xend] = corrVal
-      else:
-        data[y,xstart] = corrVal
+if numFiles < 2:
+  printUsage()
+  sys.exit(0)
+else:
+  inFile = files[0]
+  outFile = files[1]
+
+# Make sure the input FITS file exists before proceeding
+
+if os.path.isfile(inFile) == 0:
+  print('\n** ERROR: Input FITS image file %s not found.' % (inFile))
+  print('          modsFixPix aborting.\n')
+  sys.exit(1)
+
+# Make sure we won't clobber the output file unless -f is used
+
+if NoClobber and os.path.isfile(outFile): 
+  print('\n** ERROR: Operation would overwrite existing FITS file %s' % (outFile))
+  print('          Use -f to force output (\'clobber\').')
+  print('          modsFixPix aborting.\n')
+  sys.exit(1)
+
+# Open the input FITS image file, and get header info as needed
+
+fitsFile = fits.open(inFile,uint=False)
+data = fitsFile[0].data
+
+# Extract useful FITS info from the header
+
+naxis1 = fitsFile[0].header['NAXIS1']
+naxis2 = fitsFile[0].header['NAXIS2']
+instID = fitsFile[0].header['INSTRUME']
+channel = fitsFile[0].header['CHANNEL']
+
+if Verbose:
+  print('Processing %s [%d x %d]' % (inFile, naxis1, naxis2))
+  print('%s %s Channel' % (instID,channel))
+
+# If we were not given a bad pixel list on the command line, use the
+# INSTRUME keyword in the header to find the default
+
+if userBPL:
+  pathBits = os.path.split(bplFile)
+  if len(pathBits[0]) == 0:
+    bplFile = os.path.join(modsDir,bplFile)
+else:
+  bplFile = os.path.join(modsDir,str.lower(instID)+'.bpl')
+
+if os.path.isfile(bplFile) == 0:
+  print('\n** ERROR: MODS bad pixel list file %s not found.' % (bplFile))
+  print('          modsFixPix aborting.\n')
+  sys.exit(1)
+
+if Verbose:
+  print('Bad Pixel List: %s' % (bplFile))
+
+# Read and parse the bad pixel list
+
+xs, xe, ys, ye = readBadPixList(bplFile)
+
+if Verbose:
+  print('%s contains %d bad pixel regions to fix' % (bplFile,len(xs)+1))
+
+# Page through the bad pixel list and fix the pixel
+
+for i in range(len(xs)):
+  xstart = int(xs[i]-1)
+  xend = int(xe[i])
+  ystart = int(ys[i]-1)
+  yend = int(ye[i])
+  nx=xe[i]-xs[i]+1
 
   if Verbose:
-    print('Done fixing pixels, writing image %s...' % (outFile))
-  
-  # Write the output file 
+    print('  Fixing pixels in region [%d:%d,%d:%d]' % (xs[i],xe[i],ys[i],ye[i]))
+    
+  # The 'fix' is to replace bad-column pixels by the median of
+  # pixels +/-numAvg either side of the bad column(s).
 
-  fitsFile[0].data = data
-  fitsFile[0].header['BPLFILE'] = (bplFile)
-  fitsFile[0].header['BPWIDTH'] = (numAvg,'Bad pixel averaging region width [pixels]')
-  fitsFile[0].header.add_history('modsFixPix v%s %s' % (versNum,versDate))
+  xsl=xstart-numAvg
+  xel=xstart-1
+  xsr=xend+1
+  xer=xend+numAvg
 
-  if os.path.isfile(outFile): 
-    if Verbose:
-      print('** WARNING: Overwriting existing FITS file %s' % (outFile) )
-    os.remove(outFile) 
+  for y in range(ystart,yend,1):
+    medLeft = np.median(data[y,xsl:xel])
+    medRight= np.median(data[y,xsr:xer])
+    corrVal = (medLeft+medRight)/2.0
+    if (nx>1):
+      data[y,xstart:xend] = corrVal
+    else:
+      data[y,xstart] = corrVal
 
-  fitsFile.writeto(outFile,output_verify='ignore')
+if Verbose:
+  print('Done fixing pixels, writing image %s...' % (outFile))
 
+# Write the output file 
+
+fitsFile[0].data = data
+fitsFile[0].header['BPLFILE'] = (bplFile)
+fitsFile[0].header['BPWIDTH'] = (numAvg,'Bad pixel averaging region width [pixels]')
+fitsFile[0].header.add_history('modsFixPix v%s %s' % (versNum,versDate))
+
+if os.path.isfile(outFile): 
   if Verbose:
-    print('modsFixPix Done')
+    print('** WARNING: Overwriting existing FITS file %s' % (outFile) )
+  os.remove(outFile) 
+
+fitsFile.writeto(outFile,output_verify='ignore')
+
+if Verbose:
+  print('modsFixPix Done')
 
 sys.exit(0)
 
 #---------------------------------------------------------------------------
-
-if __name__ == '__main__':
-  main()
+#
+#if __name__ == '__main__':
+#  main()
 
