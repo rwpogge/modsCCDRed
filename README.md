@@ -103,8 +103,8 @@ This is the last Python 2.7 version.  The next revision will be Python 3 compati
 ## Release Notes
 
 <dl>
-<dt>2018 Oct 24 - bug fixes
-<dd>Fixed stupid python bugs in modsBias.py and modsFixPix.py
+<dt>2018 Oct 24 - v2.0.4 - bug fixes
+<dd>Fixed stupid errors in modsBias.py and modsFixPix.py
  
 <dt>2017 May 21 - v2.0.3 - astropy patch
 <dd>A recent update to the astropy.io FITS module removed support for
