@@ -103,7 +103,7 @@ This is the last Python 2.7 version.  The next revision will be Python 3 compati
 ## Acknowledging use of modsCCDRed
 
 If your research used modsCCDRed, we ask that you follow
-[emerging practices within the Astronomical community](https://doi.org/10.7717/peerj-cs.86﻿)
+[emerging practices within the Astronomical community](https://doi.org/10.7717/peerj-cs.86)
 to ensure the proper citation of software used for their research in resulting scientific publications. 
 
  > [![DOI](https://zenodo.org/badge/141930471.svg)](https://zenodo.org/badge/latestdoi/141930471)
