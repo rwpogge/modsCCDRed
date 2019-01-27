@@ -102,15 +102,16 @@ This is the last Python 2.7 version.  The next revision will be Python 3 compati
 
 ## Acknowledging use of modsCCDRed
 
-If your research used modsCCDRed, we ask that you follow [emerging practices within the Astronomical community](https://doi.org/10.7717/peerj-cs.86﻿)
-to ensure the proper citation of software used for their research in resulting  scientific publications. 
+If your research used modsCCDRed, we ask that you follow
+[emerging practices within the Astronomical community](https://doi.org/10.7717/peerj-cs.86﻿)
+to ensure the proper citation of software used for their research in resulting scientific publications. 
 
-[![DOI](https://zenodo.org/badge/141930471.svg)](https://zenodo.org/badge/latestdoi/141930471)
+ > [![DOI](https://zenodo.org/badge/141930471.svg)](https://zenodo.org/badge/latestdoi/141930471)
 
 modsCCDRed was developed for the MODS instrument, which was built with with major support provided by grants from the U.S.
 National Science Foundation's Division of Astronomical Sciences Advanced Technologies and Instrumention (AST-9987045),  
 the NSF/NOAO TSIP Program, and with matching funds provided by the Ohio State University Office of Research and the 
-Ohio Board of Regents
+Ohio Board of Regents.  Additional support was provided by NSF Grant AST-1108693.
 
 ## Release Notes
 
