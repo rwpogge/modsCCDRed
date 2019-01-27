@@ -100,7 +100,7 @@ directories.
 
 This is the last Python 2.7 version.  The next revision will be Python 3 compatible, committed after thorough testing.
 
-## Acknowledging use of modsCCDRed
+## Acknowledging modsCCDRed
 
 If your research used modsCCDRed, we ask that you follow emerging
 [software citation principles](https://doi.org/10.7717/peerj-cs.86) being adopted by the astronomical community
