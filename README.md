@@ -108,10 +108,11 @@ to ensure the proper citation of software in scientific publications.
 
  > [![DOI](https://zenodo.org/badge/141930471.svg)](https://zenodo.org/badge/latestdoi/141930471)
 
-modsCCDRed was developed for the MODS instrument, which was built with with major support provided by grants from the U.S.
-National Science Foundation's Division of Astronomical Sciences Advanced Technologies and Instrumention (AST-9987045),
-the NSF/NOAO TSIP Program, and matching funds provided by the Ohio State University Office of Research and the 
-Ohio Board of Regents.  Additional support was provided by NSF Grant AST-1108693.
+modsCCDRed was developed for the MODS1 and MODS instruments at the Large Binocular Telescope Observtory, which were
+built with major support provided by grants from the U.S. National Science Foundation's Division of Astronomical Sciences
+Advanced Technologies and Instrumentation (AST-9987045), the NSF/NOAO TSIP Program, and matching funds provided by the Ohio
+State University Office of Research and the Ohio Board of Regents.  Additional support for modsCCDRed was provided by NSF
+Grant AST-1108693.
 
 ## Release Notes
 
