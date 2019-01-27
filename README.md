@@ -64,7 +64,7 @@ e.g., /usr/local/, and then installing the executables in, e.g.,
 
 ## Common Bad Pixel Lists
 
-To use the default bad pixel lists, users need to define this
+To use the [default bad pixel lists](database), users need to define this
 environment variable
 
  > setenv MODS_DBDIR /usr/local/LBT/modsCCDRed/database/
