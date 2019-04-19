@@ -117,7 +117,11 @@ Grant AST-1108693.
 ## Release Notes
 
 <dl>
-<dt>2018 Oct 24 - v2.0.4 - bug fixes
+<dt>2019 Apr 19 - v2.0.5 - bug fixes
+<dd>Fixed problems found in Python 2 to Python 3 conversion that will cause
+problems with some Python 2.7 distros
+ 
+ <dt>2018 Oct 24 - v2.0.4 - bug fixes
 <dd>Fixed stupid errors in modsBias.py and modsFixPix.py
  
 <dt>2017 May 21 - v2.0.3 - astropy patch
