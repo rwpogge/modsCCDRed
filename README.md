@@ -106,7 +106,7 @@ If your research used modsCCDRed, we ask that you follow emerging
 [software citation principles](https://doi.org/10.7717/peerj-cs.86) being adopted by the astronomical community
 to ensure the proper citation of software in scientific publications. 
 
- > [![DOI](https://zenodo.org/badge/141930470.svg)](https://zenodo.org/badge/latestdoi/141930470)
+ > [![DOI](https://zenodo.org/badge/2550740.svg)](https://doi.org/10.5281/zenodo.2550740)
 
 modsCCDRed was developed for the MODS1 and MODS2 instruments at the Large Binocular Telescope Observatory, which were
 built with major support provided by grants from the U.S. National Science Foundation's Division of Astronomical Sciences
