@@ -79,7 +79,6 @@
 #  2017 May 21: fixed bug Barry Rothberg found out of the box [rwp/osu]
 #-----------------------------------------------------------------------------
 
-import string as str
 import os 
 import sys
 import getopt
@@ -88,8 +87,8 @@ from astropy.io import fits
 
 # Version number and date
 
-versNum = '2.1.4'
-versDate = '2017-05-21'
+versNum = '2.1.6'
+versDate = '2019-04-19'
 
 # Global Defaults
 
@@ -167,12 +166,14 @@ def readBadPixList(file):
   ys=[]
   ye=[]
 
-  for i in range(len(M)): 
-    if str.find(M[i], '#') <0: 
-      xs.append(float(M[i].split()[0])) 
-      xe.append(float(M[i].split()[1])) 
-      ys.append(float(M[i].split()[2])) 
-      ye.append(float(M[i].split()[3])) 
+  for line in M:
+    inStr = line.strip()
+    if not inStr.startswith('#'):
+      bits = inStr.split()
+      xs.append(float(bits[0]))
+      xe.append(float(bits[1]))
+      ys.append(float(bits[2]))
+      ye.append(float(bits[3]))
 
   if len(xs) == 0:
     print('\n** ERROR: %s has no bad regions listed' % (file))
@@ -256,7 +257,7 @@ for i in range(numRaw):
 
   # Create the output filename and test for clobber/no-clobber 
 
-  outFile = rawFile[:str.find(rawFile, '.fits')]+outSuffix+'.fits' 
+  outFile = os.path.splitext(rawFile)[0]+outSuffix+'.fits' 
   if os.path.isfile(outFile):
     if NoClobber:
       print('\n** ERROR: Operation would overwrite existing FITS file %s' % (outFile))
@@ -299,9 +300,9 @@ for i in range(numRaw):
       if len(pathBits[0]) == 0:
         bplFile = os.path.join(modsDir,bplFile)
       else:
-        bplFile = os.path.join(modsDir,str.lower(instID)+'.bpl')
+        bplFile = os.path.join(modsDir,instID.lower()+'.bpl')
     else:
-      bplFile = os.path.join(modsDir,str.lower(instID)+'.bpl')
+      bplFile = os.path.join(modsDir,instID.lower()+'.bpl')
 
     if os.path.isfile(bplFile) == 0:
       print('\n** ERROR: MODS bad pixel list file %s not found.' % (bplFile))
@@ -509,7 +510,7 @@ for i in range(numRaw):
   # If this is a red-channel image, we need to flip the red channel into
   # blue-to-red wavelength order
 
-  if str.upper(channel)=='RED':
+  if channel.upper()=='RED':
     if redFlip:
       if Verbose:
         print('Flipping Red-channel CCD into blue-to-red wavelength order...')

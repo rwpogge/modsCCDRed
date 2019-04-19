@@ -75,7 +75,6 @@
 #               for all versions [rwp/osu]
 #-----------------------------------------------------------------------------
 
-import string as str
 import os 
 import sys
 import getopt
@@ -84,8 +83,8 @@ from astropy.io import fits
 
 # Version number and date
 
-versNum = '2.1.3'
-versDate = '2017-05-17'
+versNum = '2.1.4'
+versDate = '2019-04-19'
 
 # Global Defaults
 
@@ -164,8 +163,8 @@ for rawFile in files:
   if os.path.isfile(rawFile):
 
     # Check the output file for clobber/noclobber
-    
-    outFile = rawFile[:str.find(rawFile, '.fits')]+outSuffix+'.fits' 
+
+    outFile = os.path.splitext(rawFile)[0]+outSuffix+'.fits'
     if os.path.isfile(outFile):
       if NoClobber:
         print('\n** ERROR: Operation would overwrite existing FITS file %s' % (outFile))

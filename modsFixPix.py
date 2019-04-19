@@ -53,7 +53,7 @@
 #                if undefined.
 #
 # Standard Modules:
-#   string, os, sys, getopt
+#   os, sys, getopt
 #
 # External Modules:
 #   numpy
@@ -73,18 +73,16 @@
 #
 #-----------------------------------------------------------------------------
 
-import string as str
 import os 
 import sys
 import getopt
 import numpy as np 
-#import pyfits as fits
 from astropy.io import fits
 
 # Version and Date
 
-versNum = '2.0.4'
-versDate = '2018-10-24'
+versNum = '2.0.5'
+versDate = '2019-04-19'
 
 # Globals
 
@@ -147,12 +145,14 @@ def readBadPixList(file):
   ys=[]
   ye=[]
 
-  for i in range(len(M)): 
-    if str.find(M[i], '#') <0: 
-      xs.append(float(M[i].split()[0])) 
-      xe.append(float(M[i].split()[1])) 
-      ys.append(float(M[i].split()[2])) 
-      ye.append(float(M[i].split()[3])) 
+  for line in M:
+    inStr = line.strip()
+    if not inStr.startswith('#'):
+      bits = inStr.split()
+      xs.append(float(bits[0])) 
+      xe.append(float(bits[1])) 
+      ys.append(float(bits[2])) 
+      ye.append(float(bits[3])) 
 
   if len(xs) == 0:
     print('\n** ERROR: %s has no bad regions listed' % (file))
@@ -259,7 +259,7 @@ if userBPL:
   if len(pathBits[0]) == 0:
     bplFile = os.path.join(modsDir,bplFile)
 else:
-  bplFile = os.path.join(modsDir,str.lower(instID)+'.bpl')
+  bplFile = os.path.join(modsDir,instID.lower()+'.bpl')
 
 if os.path.isfile(bplFile) == 0:
   print('\n** ERROR: MODS bad pixel list file %s not found.' % (bplFile))
