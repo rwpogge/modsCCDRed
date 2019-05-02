@@ -69,8 +69,8 @@ from astropy.io import fits
 
 # Version number and date
 
-versNum  = '2.0.9'
-versDate = '2017-05-18'
+versNum  = '2.0.10'
+versDate = '2019-05-02'
 
 # Global Defaults
 
@@ -184,8 +184,8 @@ data = fitsFile[0].data
 
 # These are the starting pixels of each quadrant
 
-nxquad = naxis1/2
-nyquad = naxis2/2
+nxquad = int(naxis1/2)
+nyquad = int(naxis2/2)
 (xs1,ys1) = (0,0)
 (xs2,ys2) = (nxquad,0)
 (xs3,ys3) = (0,nyquad)
