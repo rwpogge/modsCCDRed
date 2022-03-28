@@ -108,6 +108,12 @@ to ensure the proper citation of software in scientific publications.
 
  > [DOI 10.5281/zenodo.2550740](https://doi.org/10.5281/zenodo.2550740)
 
+If you publish MODS data reduced with the modsCCDRed, we ask that you add this line to the acknowledgments section of
+your paper:
+
+    This paper made use of the modsCCDRed data reduction code developed in part with funds provided by NSF Grants 
+    AST-9987045 and AST-1108693. 
+    
 modsCCDRed was developed for the MODS1 and MODS2 instruments at the Large Binocular Telescope Observatory, which were
 built with major support provided by grants from the U.S. National Science Foundation's Division of Astronomical Sciences
 Advanced Technologies and Instrumentation (AST-9987045), the NSF/NOAO TSIP Program, and matching funds provided by the Ohio
