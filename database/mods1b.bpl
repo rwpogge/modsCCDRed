@@ -1,7 +1,7 @@
 #
 # MODS1 Blue Channel CCD Bad Pixel List
 # Full-frame (8192x3088) 1x1 binning after trim of overscan
-# Updated: 2012 March 29 [rwp/osu]
+# Updated: 2012 March 29 (Richard Pogge, OSU)
 #
 # xs   xe   ys   ye
 1801 1802 1263 1545

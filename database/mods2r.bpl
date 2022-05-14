@@ -1,7 +1,7 @@
 #
 # MODS2 Red Channel CCD Bad Pixel List
 # Full Frame (8192x3088) 1x1 binning after overscan and trim
-# Created based on spectroscopic flats taken on 20150510 (opk/lbto)
+# Updated: 2015 May 10 (Olga Kuhn, LBTO)
 #
 # xs   xe   ys   ye
 #
