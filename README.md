@@ -12,16 +12,12 @@ CCD data.
 The modsCCDRed Python programs have been tested on Linux (CentOS 5 to
 7) and Mac OS X (v10.7 Lion thru 10.13 HighSierra) operating systems.
 
-Python 2.5 or later is required, and the programs have been used
-primarily with Python versions 2.7 for the past year.  We have adopted
-the free Anaconda Python for development of these program as it has
+Version 2.0.5 of these scripts were ported to Python 3 in a way that
+should still be back-compatible with people still running 
+Python 2.7. We have adopted the free Anaconda Python for development of these program as it has
 proven to be the most trouble free distribution across Linux and Mac
 platforms, and we are becoming more invested in astropy across the
 profession for utilities like this.
-
-NOTE: These programs might run under Python 3 but I would not bet on it.
-This version was better about print and expect syntax and tries to keep
-things simple.
 
 If you do not use anaconda python, you will need to load and install
 the numpy and astropy modules before you can use modsCCDRed.
@@ -98,7 +94,10 @@ directories.
 
 ## Python 3 Compatibility
 
-This is the last Python 2.7 version.  The next revision will be Python 3 compatible, committed after thorough testing.
+We have a verified Python 3 compatible version starting with v2.0.5. This version
+is also verified to run under Python 2.7 for those who still haven't made the
+leap, but beware that external modules like numpy et al. may not be so forgiving
+moving forward, so we recommend you switch to Python 3 if you haven't already.
 
 ## Acknowledging modsCCDRed
 
